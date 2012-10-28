@@ -10,6 +10,7 @@
 一度見たCGだけ表示する
 CG数に合わせて、自動でぺージを調整する
 差分画像に対応、何枚中何枚見たかを表示
+ある程度レイアウトも変更出来る
 使い方
 設定後、first.ksでcg_mode_init.ksを読み込む
 例
@@ -19,7 +20,7 @@ CG数に合わせて、自動でぺージを調整する
 [link exp="kag.callExtraConductor('cg_mode.ks', '*cg_mode')"]CGモード[endlink]
 
 設定方法
-203行目の右クリックの設定を環境にあわせてかえる
+195行目の右クリックの設定を環境にあわせてかえる
 cg_mode_init.ksの17行目からの各変数を書きかえる
 
 cg.base = 'black'; //背景画像
@@ -30,13 +31,19 @@ cg.line   = 7;  //サムネイルを表示する横の数
 cg.column = 3;  //サムネイルを表示する縦の数
 cg.base_x = 50; //サムネイルを表示する初期x座標
 cg.base_y = 35; //サムネイルを表示する初期y座標
+cg.page_basex = 500; //ページボタンの初期x座標
+cg.page_basey = 0;   //ページボタンの初期y座標
+cg.page_width = 20;  //ページボタン間の幅
+cg.page_height = 0;  //ページボタン間の高さ
+cg.close_x=kag.scWidth-150; //閉じるのx座標
+cg.close_y=kag.scHeight-50; //閉じるのy座標
 cg.width  = (kag.scWidth - cg.base_x*2)\cg.column; //サムネイル間の幅
 cg.height = 50; //サムネイル間の高さ
 cg.cg_storage = []; //画像ファイル名を入れる
 cg.cg_sstorage = []; //サムネイルファイル名を入れる
 //2つの配列は同じ順番でなくてはならない
 //また、差分画像は配列内配列で記述する
-また、82行目の0を1にすることで全てのCGを見たことにできる
+また、88行目の0を1にすることで全てのCGを見たことにできる
 
 次にflagcgを画像を表示するマクロに組み込む
 例

@@ -71,32 +71,28 @@ for(var i=0;i<kag.numMessageLayers;i++)
 
 ;ぺージ番号描画
 @if exp="cg.maxpage > 0"
-	@locate x=500 y=0
+	@eval exp="cg.pagecount = 0"
+	@locate x="&cg.page_basex + cg.page_width * cg.pagecount" y="&cg.page_basey + cg.page_height * cg.pagecount"
 	@nowait
 	ページ
 	@endnowait
-	@eval exp="cg.pagecount = 0"
 *pagedraw
+		@locate x="&cg.page_basex + cg.page_width * cg.pagecount + 100" y="&cg.page_basey + cg.page_height * cg.pagecount"
+		@nowait
 		@if exp="cg.pagecount != cg.page"
 			@link storage=cg_mode.ks target=*sub_draw exp="&'cg.page = ' + cg.pagecount"
-			@locate x="&600 + 20 * cg.pagecount" y=0
-			@nowait
 			@emb exp="cg.pagecount + 1"
-			@endnowait
 			@endlink
 		@else
-			@locate x="&600 + 20 * cg.pagecount" y=0
-			@nowait
 			@font color=0x666666
 			@emb exp="cg.pagecount + 1"
 			@resetfont
-			@endnowait
 		@endif
+		@endnowait
 	@jump storage=cg_mode.ks target=*pagedraw cond="++cg.pagecount < (cg.maxpage + 1)"
 @endif
 
-
-@locate x="&kag.scWidth-150" y="&kag.scHeight-50"
+@locate x=&cg.close_x y=&cg.close_y
 @link storage=cg_mode.ks target=*back
 @nowait
 閉じる

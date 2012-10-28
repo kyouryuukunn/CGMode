@@ -22,6 +22,12 @@ cg.line   = 4; //横の数
 cg.column = 4; //縦の数
 cg.base_x = 50; //初期x座標
 cg.base_y = 100; //初期y座標
+cg.page_basex = 500; //ページボタンの初期x座標
+cg.page_basey = 0;   //ページボタンの初期y座標
+cg.page_width = 20;  //ページボタン間の幅
+cg.page_height = 0;  //ページボタン間の高さ
+cg.close_x=kag.scWidth-150; //閉じるのx座標
+cg.close_y=kag.scHeight-50; //閉じるのy座標
 cg.width  = (kag.scWidth - cg.base_x*2)\cg.column; //幅
 cg.height = 100; //高さ
 cg.cg_storage = [ //ファイル名を入れる
@@ -79,7 +85,7 @@ if (sf.cg_mode_init === void){
 	sf.cg_mode_init = 1;
 }
 //全CGを見たことにする(デバッグ用)
-if (1){
+if (0){
 	for (var i=0; i < cg.cg_storage.count; i++){
 		if (typeof(cg.cg_storage[i]) == 'Object'){
 			for (var n=0; n < cg.cg_storage[i].count; n++){
