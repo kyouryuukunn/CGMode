@@ -56,8 +56,8 @@ for(var i=0;i<kag.numMessageLayers;i++)
 				@button graphic=&cg.cg_button storage=cg_mode.ks target=*play exp="&'cg.playing = ' + ( cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line )"
 				;一番最初に見つかった見た差分画像をサムネイルに選ぶ
 				@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line][cg.count]" layer=base dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
-				@locate x="&cg.base_x + cg.temp_column * cg.width + cg.thumbnail_width - 30" y="&cg.base_y + cg.temp_line * cg.height + cg.thumbnail_height - 25"
-				@font size=12
+				@locate x="&cg.base_x + cg.temp_column * cg.width + cg.count_x" y="&cg.base_y + cg.temp_line * cg.height + cg.count_y"
+				@eval exp="kag.tagHandlers.font(cg.count_font)"
 				@nowait
 				@emb exp="cg_modecount(cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line)"
 				@endnowait
@@ -74,16 +74,21 @@ for(var i=0;i<kag.numMessageLayers;i++)
 	@eval exp="cg.pagecount = 0"
 	@locate x="&cg.page_basex + cg.page_width * cg.pagecount" y="&cg.page_basey + cg.page_height * cg.pagecount"
 	@nowait
-	ページ
+	@eval exp="kag.tagHandlers.font(cg.page_font)"
+	page
+	@resetfont
 	@endnowait
 *pagedraw
 		@locate x="&cg.page_basex + cg.page_width * cg.pagecount + 100" y="&cg.page_basey + cg.page_height * cg.pagecount"
 		@nowait
 		@if exp="cg.pagecount != cg.page"
 			@link storage=cg_mode.ks target=*sub_draw exp="&'cg.page = ' + cg.pagecount"
+			@eval exp="kag.tagHandlers.font(cg.page_font)"
 			@emb exp="cg.pagecount + 1"
+			@resetfont
 			@endlink
 		@else
+			@eval exp="kag.tagHandlers.font(cg.page_font)"
 			@font color=0x666666
 			@emb exp="cg.pagecount + 1"
 			@resetfont
@@ -95,7 +100,9 @@ for(var i=0;i<kag.numMessageLayers;i++)
 @locate x=&cg.close_x y=&cg.close_y
 @link storage=cg_mode.ks target=*back
 @nowait
-閉じる
+@eval exp="kag.tagHandlers.font(cg.close_font)"
+close
+@resetfont
 @endnowait
 @endlink
 
