@@ -2,8 +2,9 @@
 *cg_mode
 
 @tempsave
+@rclick enabled=true jump=true storage=cg_mode.ks target=*back
 @laycount messages="&kag.numMessageLayers + 1"
-@rclick enabled=true storage=cg_mode.ks target=*back
+@layopt layer=0 opacity=255
 
 @iscript
 cg.playing = 0;
