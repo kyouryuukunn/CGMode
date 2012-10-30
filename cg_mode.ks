@@ -199,6 +199,7 @@ close
 
 *back
 @tempload
+;Še©‚Åİ’è
 @rclick enabled=true jump=true storage=title.ks target=*title
 @return
 
