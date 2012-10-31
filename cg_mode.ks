@@ -35,18 +35,21 @@ for(var i=0;i<kag.numMessageLayers;i++)
 *line
 		;差分画像か調べる
 		@if exp="typeof(sf.cg_flag[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]) != 'Object'"
-			@if exp="sf.cg_flag[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]"
-				;cg_sstorageの数を越えて描画しないため
-				@if exp="cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line < cg.cg_sstorage.count"
+			;cg_sstorageの数を越えて描画しないため
+			@if exp="cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line < cg.cg_sstorage.count"
+				@if exp="sf.cg_flag[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]"
 					@locate x="&cg.base_x + cg.temp_column * cg.width" y="&cg.base_y + cg.temp_line * cg.height"
 					;透明なボタンを表示
 					@button graphic=&cg.cg_button storage=cg_mode.ks target=*play exp="&'cg.playing = ' + ( cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line )"
 					@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]" layer=base dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
+				@else
+					@pimage storage="&cg.cg_dummy" layer=base dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 				@endif
 			@endif
 		@else
 			@eval exp="cg.count = 0"
 *draw_loop
+			;一番最初に見つかった見た差分画像をサムネイルに選ぶ
 			@if exp="sf.cg_flag[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line][cg.count]"
 				@jump storage=cg_mode.ks target=*draw_end
 			@endif
@@ -55,7 +58,6 @@ for(var i=0;i<kag.numMessageLayers;i++)
 			@if exp="cg.count != cg.cg_storage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line].count"
 				@locate x="&cg.base_x + cg.temp_column * cg.width" y="&cg.base_y + cg.temp_line * cg.height"
 				@button graphic=&cg.cg_button storage=cg_mode.ks target=*play exp="&'cg.playing = ' + ( cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line )"
-				;一番最初に見つかった見た差分画像をサムネイルに選ぶ
 				@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line][cg.count]" layer=base dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 				@locate x="&cg.base_x + cg.temp_column * cg.width + cg.count_x" y="&cg.base_y + cg.temp_line * cg.height + cg.count_y"
 				@eval exp="kag.tagHandlers.font(cg.count_font)"
@@ -63,6 +65,8 @@ for(var i=0;i<kag.numMessageLayers;i++)
 				@emb exp="cg_modecount(cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line)"
 				@endnowait
 				@resetfont
+			@else
+				@pimage storage="&cg.cg_dummy" layer=base dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 			@endif
 		@endif
 	@jump storage=cg_mode.ks target=*line cond="++cg.temp_line < cg.line"

@@ -29,6 +29,7 @@ cg_mode_init.ksの17行目からの各変数を書きかえる
 
 cg.base = 'black'; //背景画像
 cg.cg_button = 'cg_button'; //サムネイルと同じ大きさのボタン画像
+cg.cg_dummy = 'cg_dummy'; //まだ見ていないCGの位置に表示する画像
 cg.thumbnail_width  = 100; //サムネイルの幅
 cg.thumbnail_height =  75; //サムネイルと高さ
 cg.line   = 4; //列数
