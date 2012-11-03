@@ -13,8 +13,15 @@ https://skydrive.live.com/#cid=8F8EF4D2142F33D4&id=8F8EF4D2142F33D4!257
 機能
 一度見たCGだけ表示する
 CG数に合わせて、自動でぺージを調整する
+マウスホイールでページ移動も可
 差分画像に対応、何枚中何枚見たかを表示
 ある程度レイアウトも変更出来る
+
+使っている変数
+sf.cg_flag
+sf.cg_mode_init
+global.cg
+
 使い方
 設定後、first.ksでcg_mode_init.ksを読み込む
 例
