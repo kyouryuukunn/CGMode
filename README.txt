@@ -1,4 +1,3 @@
-
 よくあるCGモードを実装する
 
 もしも使いたい人がいたなら好きに使っていいです。
@@ -31,7 +30,7 @@ global.cg
 [link exp="kag.callExtraConductor('cg_mode.ks', '*cg_mode')"]CGモード[endlink]
 
 設定方法
-cg_mode.ksの177行目の右クリックの設定を環境にあわせてかえる
+cg_mode.ksのラベル*backの右クリックの設定を環境にあわせてかえる
 cg_mode_init.ksの17行目からの各変数を書きかえる
 
 cg.base = 'black'; //背景画像
@@ -60,7 +59,7 @@ cg.cg_storage = [];  //画像ファイル名を入れる
 cg.cg_sstorage = []; //サムネイルファイル名を入れる
 //2つの配列は同じ順番でなくてはならない
 //また、差分画像は配列内配列で記述する
-また、cg_mode_complete()を実行することで全てのCGを見たことにできる
+また、cg.complete()を実行することで全てのCGを見たことにできる
 
 次にflagcgを画像を表示するマクロに組み込む
 例
