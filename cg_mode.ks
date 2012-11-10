@@ -26,9 +26,9 @@ for(var i=0;i<kag.numMessageLayers;i++)
 @position opacity=0 marginb=0 margint=0 marginl=0 marginr=0 width=&kag.scWidth height=&kag.scHeight top=0 left=0 layer=message visible=true
 @iscript
 //マウスホイール用の設定
-kag.fore.messages[kag.numMessageLayers - 1].onMouseWheel = cg_wheel;
-kag.back.messages[kag.numMessageLayers - 1].onMouseWheel = cg_wheel;
-function cg_wheel(shift, delta, x, y){
+kag.fore.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
+kag.back.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
+cg.wheel = function (shift, delta, x, y){
 	if (delta < 0){
 		if  (cg.page >= cg.maxpage){
 			cg.page = 0;
@@ -44,7 +44,7 @@ function cg_wheel(shift, delta, x, y){
 		}
 		kag.process('cg_mode.ks', '*sub_draw');
 	}
-};
+} incontextof global;
 @endscript
 @backlay
 @image layer="&kag.numCharacterLayers-2" storage=&cg.base visible=true page=back
@@ -97,7 +97,7 @@ function cg_wheel(shift, delta, x, y){
 				@locate x="&cg.base_x + cg.temp_column * cg.width + cg.count_x" y="&cg.base_y + cg.temp_line * cg.height + cg.count_y"
 				@eval exp="kag.tagHandlers.font(cg.count_font)"
 				@nowait
-				@emb exp="cg_modecount(cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line)"
+				@emb exp="cg.modecount(cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line)"
 				@endnowait
 				@resetfont
 			@else

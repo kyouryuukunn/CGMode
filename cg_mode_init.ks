@@ -31,7 +31,7 @@ cg.page_width = 20;  //ページボタン間の幅
 cg.page_height = 0;  //ページボタン間の高さ
 cg.page_font = %['italic' => true];  //ページボタンのフォント
 cg.count_x = cg.thumbnail_width - 30;  //差分画像をいくつみたかを表示するサムネイルからの相対x座標
-cg.count_y = cg.thumbnail_height - 25; //差分画像をいくつみたかを表示するサムネイルからの相対y座標
+cg.count_y = cg.thumbnail_height - 10; //差分画像をいくつみたかを表示するサムネイルからの相対y座標
 cg.count_font = %['size' => 12];       //差分画像をいくつみたかのフォント
 cg.close_x=kag.scWidth-100; //閉じるのx座標
 cg.close_y=0; //閉じるのy座標
@@ -107,7 +107,7 @@ if (sf.cg_mode_init === void){
 	sf.cg_mode_init = 1;
 }
 //全CGを見たことにする(デバッグ用)
-function cg_mode_complete(){
+cg.complete = function (){
 	for (var i=0; i < cg.cg_storage.count; i++){
 		if (typeof(cg.cg_storage[i]) == 'Object'){
 			for (var n=0; n < cg.cg_storage[i].count; n++){
@@ -117,18 +117,18 @@ function cg_mode_complete(){
 			sf.cg_flag[i] = true;
 		}
 	}
-}
+} incontextof global;
 cg.page = 0;
 cg.maxpage = cg.cg_sstorage.count%(cg.column*cg.line) == 0 ? cg.cg_sstorage.count\(cg.column*cg.line) - 1 : cg.cg_sstorage.count\(cg.column*cg.line);
 
-function cg_modecount(num){ //差分画像の見た割合を返す
+cg.modecount = function (num){ //差分画像の見た割合を返す
 	var saw = 0;
 	for (var i=0; i < cg.cg_storage[num].count; i++){
 		if (sf.cg_flag[num][i])
 			saw+=1;
 	}
 	return saw + '/' + cg.cg_storage[num].count;
-}
+} incontextof global;
 function flagcg(elm){
 	var i = cg.cg_storage.find(elm.storage);
 	if (i == -1){
