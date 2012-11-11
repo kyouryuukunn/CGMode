@@ -28,7 +28,6 @@ for(var i=0;i<kag.numMessageLayers;i++)
 //マウスホイール用の設定
 kag.fore.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
 cg.wheel = function (shift, delta, x, y){
-	System.inform('');
 	if (delta < 0){
 		if  (cg.page >= cg.maxpage){
 			cg.page = 0;
