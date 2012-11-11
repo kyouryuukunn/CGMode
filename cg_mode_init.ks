@@ -105,8 +105,7 @@ if (sf.cg_mode_init === void){
 	}
 	sf.cg_mode_init = 1;
 }
-//全CGを見たことにする(デバッグ用)
-cg.complete = function (){
+cg.complete = function (){ //全CGを見たことにする(デバッグ用)
 	for (var i=0; i < cg.cg_storage.count; i++){
 		if (typeof(cg.cg_storage[i]) == 'Object'){
 			for (var n=0; n < cg.cg_storage[i].count; n++){
@@ -117,9 +116,6 @@ cg.complete = function (){
 		}
 	}
 } incontextof global;
-cg.page = 0;
-cg.maxpage = cg.cg_sstorage.count%(cg.column*cg.line) == 0 ? cg.cg_sstorage.count\(cg.column*cg.line) - 1 : cg.cg_sstorage.count\(cg.column*cg.line);
-
 cg.modecount = function (num){ //差分画像の見た割合を返す
 	var saw = 0;
 	for (var i=0; i < cg.cg_storage[num].count; i++){
@@ -146,6 +142,26 @@ function flagcg(elm){
 		sf.cg_flag[i] = true;
 	}
 }
+cg.wheel = function (shift, delta, x, y) {
+	if (delta < 0){
+		if  (cg.page >= cg.maxpage){
+			cg.page = 0;
+		}else{
+			cg.page += 1;
+		}
+		kag.process('cg_mode.ks', '*sub_draw');
+	}else if(delta > 0){
+		if  (cg.page <= 0){
+			cg.page = cg.maxpage;
+		}else{
+			cg.page -= 1;
+		}
+		kag.process('cg_mode.ks', '*sub_draw');
+	}
+} incontextof global;
+cg.page = 0;
+cg.maxpage = cg.cg_sstorage.count%(cg.column*cg.line) == 0 ? cg.cg_sstorage.count\(cg.column*cg.line) - 1 : cg.cg_sstorage.count\(cg.column*cg.line);
+
 @endscript
 
 @return

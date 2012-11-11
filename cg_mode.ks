@@ -11,6 +11,7 @@ var elm = %["visible" => false];
 // 全てのメッセージレイヤを非表示にします
 for(var i=0;i<kag.numMessageLayers;i++)
 	kag.fore.messages[i].setOptions(elm);
+cg.in_cg = 1; //マウスホイールのためのCGモードであることの目印
 @endscript
 
 ;専用のレイヤを作る
@@ -24,27 +25,6 @@ for(var i=0;i<kag.numMessageLayers;i++)
 @layopt index="&2000000+102" layer="&'message' + (kag.numMessageLayers-1)"
 @current layer="&'message' + (kag.numMessageLayers - 1)"
 @position opacity=0 marginb=0 margint=0 marginl=0 marginr=0 width=&kag.scWidth height=&kag.scHeight top=0 left=0 layer=message visible=true
-@iscript
-//マウスホイール用の設定
-kag.fore.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
-cg.wheel = function (shift, delta, x, y){
-	if (delta < 0){
-		if  (cg.page >= cg.maxpage){
-			cg.page = 0;
-		}else{
-			cg.page += 1;
-		}
-		kag.process('cg_mode.ks', '*sub_draw');
-	}else if(delta > 0){
-		if  (cg.page <= 0){
-			cg.page = cg.maxpage;
-		}else{
-			cg.page -= 1;
-		}
-		kag.process('cg_mode.ks', '*sub_draw');
-	}
-} incontextof global;
-@endscript
 @call storage=cg_mode.ks target=*draw
 @s
 
@@ -139,13 +119,12 @@ close
 @endnowait
 @endlink
 
-;マウスホイールを使うために、フォーカス設定
-@eval exp="kag.fore.messages[kag.numMessageLayers - 1].focus()"
-
 @return
 
 *play
 @unlocklink
+;表示中はホイールを禁止
+@eval exp="cg.in_cg=0"
 @layopt layer=message visible=false
 ;通常画像
 @if exp="typeof(cg.cg_storage[cg.playing]) == 'String'"
@@ -164,8 +143,7 @@ close
 @endif
 @layopt layer=message visible=true
 @layopt layer="&kag.numCharacterLayers-1" visible=false
-;マウスホイールを使うために、フォーカス設定
-@eval exp="kag.fore.messages[kag.numMessageLayers - 1].focus()"
+@eval exp="cg.in_cg=1"
 @s
 
 
@@ -176,6 +154,7 @@ close
 
 *back
 @tempload
+@eval exp="cg.in_cg=0"
 ;@history enabled=false output=false
 ;各自で設定
 ;@rclick enabled=true jump=true storage=title.ks target=*title

@@ -30,6 +30,14 @@ global.cg
 [link exp="kag.callExtraConductor('cg_mode.ks', '*cg_mode')"]CGモード[endlink]
 
 設定方法
+AfterInit.tjsに次の文を加える(なければ作る)
+var onMouseWheel_org = kag.onMouseWheel;
+kag.onMouseWheel = function (shift, delta, x, y)
+{
+	onMouseWheel_org(...);
+	if (cg.in_cg)	cg.wheel(...);
+} incontextof kag;
+
 cg_mode.ksのラベル*backの右クリックの設定を環境にあわせてかえる
 cg_mode_init.ksの17行目からの各変数を書きかえる
 
