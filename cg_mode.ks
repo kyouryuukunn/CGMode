@@ -22,13 +22,13 @@ for(var i=0;i<kag.numMessageLayers;i++)
 @layopt index="&2000000+101" layer="&kag.numCharacterLayers-1"
 ;差分の割合
 @layopt index="&2000000+102" layer="&'message' + (kag.numMessageLayers-1)"
-@current page=back layer="&'message' + (kag.numMessageLayers - 1)"
+@current layer="&'message' + (kag.numMessageLayers - 1)"
 @position opacity=0 marginb=0 margint=0 marginl=0 marginr=0 width=&kag.scWidth height=&kag.scHeight top=0 left=0 layer=message visible=true
 @iscript
 //マウスホイール用の設定
 kag.fore.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
-kag.back.messages[kag.numMessageLayers - 1].onMouseWheel = cg.wheel;
 cg.wheel = function (shift, delta, x, y){
+	System.inform('');
 	if (delta < 0){
 		if  (cg.page >= cg.maxpage){
 			cg.page = 0;
@@ -46,11 +46,6 @@ cg.wheel = function (shift, delta, x, y){
 	}
 } incontextof global;
 @endscript
-@backlay
-@image layer="&kag.numCharacterLayers-2" storage=&cg.base visible=true page=back
-@stoptrans
-@trans method=crossfade time=300
-@wt
 @call storage=cg_mode.ks target=*draw
 @s
 
@@ -59,9 +54,8 @@ cg.wheel = function (shift, delta, x, y){
 
 ;サムネイル描画
 *draw
-@backlay
 ;pimageで描画しているので必要
-@image layer="&kag.numCharacterLayers-2" storage=&cg.base visible=true page=back
+@image layer="&kag.numCharacterLayers-2" storage=&cg.base visible=true
 @er
 @eval exp="cg.temp_column = 0"
 *column_loop
@@ -75,9 +69,9 @@ cg.wheel = function (shift, delta, x, y){
 					@locate x="&cg.base_x + cg.temp_column * cg.width" y="&cg.base_y + cg.temp_line * cg.height"
 					;透明なボタンを表示
 					@button graphic=&cg.cg_button storage=cg_mode.ks target=*play exp="&'cg.playing = ' + ( cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line )"
-					@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height" page=back
+					@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line]" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 				@else
-					@pimage storage="&cg.cg_dummy" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height" page=back
+					@pimage storage="&cg.cg_dummy" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 				@endif
 			@endif
 		@else
@@ -93,7 +87,7 @@ cg.wheel = function (shift, delta, x, y){
 			@if exp="cg.count != cg.cg_storage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line].count"
 				@locate x="&cg.base_x + cg.temp_column * cg.width" y="&cg.base_y + cg.temp_line * cg.height"
 				@button graphic=&cg.cg_button storage=cg_mode.ks target=*play exp="&'cg.playing = ' + ( cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line )"
-				@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line][cg.count]" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height" page=back
+				@pimage storage="&cg.cg_sstorage[cg.page*cg.column*cg.line + cg.temp_column*cg.line + cg.temp_line][cg.count]" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 				@locate x="&cg.base_x + cg.temp_column * cg.width + cg.count_x" y="&cg.base_y + cg.temp_line * cg.height + cg.count_y"
 				@eval exp="kag.tagHandlers.font(cg.count_font)"
 				@nowait
@@ -101,7 +95,7 @@ cg.wheel = function (shift, delta, x, y){
 				@endnowait
 				@resetfont
 			@else
-				@pimage storage="&cg.cg_dummy" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height" page=back
+				@pimage storage="&cg.cg_dummy" layer="&kag.numCharacterLayers-2" dx="&cg.base_x + cg.temp_column * cg.width" dy="&cg.base_y + cg.temp_line * cg.height"
 			@endif
 		@endif
 	@jump storage=cg_mode.ks target=*line_loop cond="++cg.temp_line < cg.line"
@@ -146,9 +140,6 @@ close
 @endnowait
 @endlink
 
-@stoptrans
-@trans method=crossfade time=300
-@wt
 ;マウスホイールを使うために、フォーカス設定
 @eval exp="kag.fore.messages[kag.numMessageLayers - 1].focus()"
 
@@ -159,27 +150,18 @@ close
 @layopt layer=message visible=false
 ;通常画像
 @if exp="typeof(cg.cg_storage[cg.playing]) == 'String'"
-	@backlay
 	@image layer="&kag.numCharacterLayers-1" storage=&cg.cg_storage[cg.playing] visible=true
-	@stoptrans
-	@trans method=crossfade time=300
-	@wt
 	@l
 @else
-;差分画像
 	@eval exp="cg.count = 0"
-*cg_multi_loop
+*cg_multi
 	@if exp="sf.cg_flag[cg.playing][cg.count]"
-		@backlay
-		@image layer="&kag.numCharacterLayers-1" storage=&cg.cg_storage[cg.playing][cg.count] visible=true page=back
-		@stoptrans
-		@trans method=crossfade time=300
-		@wt
+		@image layer="&kag.numCharacterLayers-1" storage=&cg.cg_storage[cg.playing][cg.count] visible=true
 		@l
 	@else
-		@jump storage=cg_mode.ks target=*cg_multi_loop cond="++cg.count < cg.cg_storage[cg.playing].count"
+		@jump storage=cg_mode.ks target=*cg_multi cond="++cg.count < cg.cg_storage[cg.playing].count"
 	@endif
-	@jump storage=cg_mode.ks target=*cg_multi_loop cond="++cg.count < cg.cg_storage[cg.playing].count"
+	@jump storage=cg_mode.ks target=*cg_multi cond="++cg.count < cg.cg_storage[cg.playing].count"
 @endif
 @layopt layer=message visible=true
 @layopt layer="&kag.numCharacterLayers-1" visible=false
