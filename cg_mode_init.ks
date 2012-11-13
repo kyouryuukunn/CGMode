@@ -13,28 +13,32 @@
 ;前処理と設定
 @iscript
 var cg = %[];
+//ここを書き換える↓------------------------------------------------------- 
 cg.base = 'black'; //背景、透明部分がある場合は、直前のゲーム画面が見える
 cg.cg_button = 'cg_button'; //サムネイルと同じ大きさのボタン
 cg.cg_dummy = 'cg_dummy'; //まだ見ていないCGの位置に表示する画像
 cg.thumbnail_width  = 100; //サムネイルの幅
 cg.thumbnail_height =  75; //サムネイルと高さ
-cg.line   = 4; //横の数
-cg.column = 4; //縦の数
-cg.base_x = 50; //初期x座標
-cg.base_y = 100; //初期y座標
-cg.width  = (kag.scWidth - cg.base_x*2)\cg.column; //サムネイル間の幅
-cg.height = 100; //サムネイル間の高さ
+cg.line   = 4; //列数
+cg.column = 4; //行数
+cg.base_x = 50; //サムネイルの初期x座標
+cg.base_y = 100;//サムネイルの初期y座標
+cg.width  = (kag.scWidth - cg.base_x*2)\cg.column; //サムネイルの列幅
+cg.height = 100; //サムネイルの行の幅
 cg.page_basex = 500; //ページボタンの初期x座標
 cg.page_basey = 0;   //ページボタンの初期y座標
 cg.page_width = 20;  //ページボタン間の幅
 cg.page_height = 0;  //ページボタン間の高さ
 cg.page_font = %['italic' => true];  //ページボタンのフォント
-cg.count_x = cg.thumbnail_width - 30;  //差分画像をいくつみたかを表示するサムネイルからの相対x座標
-cg.count_y = cg.thumbnail_height - 10; //差分画像をいくつみたかを表示するサムネイルからの相対y座標
-cg.count_font = %['size' => 12];       //差分画像をいくつみたかのフォント
+cg.count_x = cg.thumbnail_width - 30;  //差分画像をいくつみたかの表示のサムネイルからの相対x座標
+cg.count_y = cg.thumbnail_height - 25; //差分画像をいくつみたかの表示のサムネイルからの相対y座標
+cg.count_font = %['size' => 12];       //差分画像をいくつみたかの表示フォント
 cg.close_x=kag.scWidth-100; //閉じるのx座標
 cg.close_y=0; //閉じるのy座標
 cg.close_font = %['italic' => true]; //閉じるのフォント
+
+//2つの配列は同じ順番でなくてはならない
+//また、差分画像は配列内配列で記述する
 cg.cg_storage = [ //ファイル名を入れる
 ['円形(中から外へ)', 'モザイク', '縦ブラインド(左から右へ)', '横ブラインド(上から下へ)'],
 ['右から左へ', '円形(外から中へ)', '下から上へ', '左から右へ', '上から下へ'],
@@ -89,6 +93,9 @@ cg.cg_sstorage = [ //サムネイルファイル名を入れる
 'sこすり(左から右へ)',
 's爆発'
 ];
+//ここを書き換える↑------------------------------------------------------- 
+
+
 if (sf.cg_mode_init === void){
 	// 最初に一度だけ実行
 	// 見たかどうかのフラグ
