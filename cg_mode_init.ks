@@ -29,13 +29,16 @@ cg.page_basex = 500; //ページボタンの初期x座標
 cg.page_basey = 0;   //ページボタンの初期y座標
 cg.page_width = 20;  //ページボタン間の幅
 cg.page_height = 0;  //ページボタン間の高さ
-cg.page_font = %['italic' => true];  //ページボタンのフォント
+cg.page_font = %['italic' => true];	//ページボタンのフォント
+					//(ユーザーがフォントを変更すると不味いのでちゃんと指定すること)
 cg.count_x = cg.thumbnail_width - 30;  //差分画像をいくつみたかの表示のサムネイルからの相対x座標
 cg.count_y = cg.thumbnail_height - 25; //差分画像をいくつみたかの表示のサムネイルからの相対y座標
 cg.count_font = %['size' => 12];       //差分画像をいくつみたかの表示フォント
+					//(ユーザーがフォントを変更すると不味いのでちゃんと指定すること)
 cg.close_x=kag.scWidth-100; //閉じるのx座標
 cg.close_y=0; //閉じるのy座標
 cg.close_font = %['italic' => true]; //閉じるのフォント
+					//(ユーザーがフォントを変更すると不味いのでちゃんと指定すること)
 
 //2つの配列は同じ順番でなくてはならない
 //また、差分画像は配列内配列で記述する
@@ -150,20 +153,29 @@ function flagcg(elm){
 	}
 }
 cg.wheel = function (shift, delta, x, y) {
-	if (delta < 0){
-		if  (cg.page >= cg.maxpage){
-			cg.page = 0;
-		}else{
-			cg.page += 1;
+	//通常
+	if (cg.in_cg == 1){
+		if (delta < 0){
+			if  (cg.page >= cg.maxpage){
+				cg.page = 0;
+			}else{
+				cg.page += 1;
+			}
+			kag.process('cg_mode.ks', '*sub_draw');
+		}else if(delta > 0){
+			if  (cg.page <= 0){
+				cg.page = cg.maxpage;
+			}else{
+				cg.page -= 1;
+			}
+			kag.process('cg_mode.ks', '*sub_draw');
 		}
-		kag.process('cg_mode.ks', '*sub_draw');
-	}else if(delta > 0){
-		if  (cg.page <= 0){
-			cg.page = cg.maxpage;
-		}else{
-			cg.page -= 1;
-		}
-		kag.process('cg_mode.ks', '*sub_draw');
+	//画像表示時
+	}else if (cg.in_cg == 2){
+		kag.process('cg_mode.ks', '*play_finish');
+	//差分画像表示時
+	}else if (cg.in_cg == 3){
+		kag.process('cg_mode.ks', '*play_multi_finish');
 	}
 } incontextof global;
 cg.page = 0;

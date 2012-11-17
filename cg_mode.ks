@@ -7,11 +7,18 @@
 
 @iscript
 cg.playing = 0;
-var elm = %["visible" => false];
 // 全てのメッセージレイヤを非表示にします
 for(var i=0;i<kag.numMessageLayers;i++)
-	kag.fore.messages[i].setOptions(elm);
-cg.in_cg = 1; //マウスホイールのためのCGモードであることの目印
+	kag.fore.messages[i].setOptions(%[visible:false]);
+//マウスホイールのためのCGモードであることの目印
+cg.in_cg = 1;
+// 一時的にマウスホイールの動作を変える
+cg.onMouseWheel_org = kag.onMouseWheel;
+kag.onMouseWheel = function (shift, delta, x, y)
+{
+	cg.onMouseWheel_org(...);
+	if (cg.in_cg)	cg.wheel(...);
+} incontextof kag;
 @endscript
 
 ;専用のレイヤを作る
@@ -142,7 +149,7 @@ close
 	@stoptrans
 	@trans method=crossfade time=300
 	@wt
-	@l
+	@p
 @else
 ;差分画像
 	@eval exp="cg.count = 0"
@@ -153,7 +160,7 @@ close
 		@stoptrans
 		@trans method=crossfade time=300
 		@wt
-		@l
+		@p
 	@else
 		@jump storage=cg_mode.ks target=*cg_multi_loop cond="++cg.count < cg.cg_storage[cg.playing].count"
 	@endif
@@ -172,8 +179,11 @@ close
 
 *back
 @tempload
-@eval exp="cg.in_cg=0"
-;@history enabled=false output=false
+@iscript
+//ホイールの動作を戻す
+kag.onMouseWheel = cg.onMouseWheel_org;
+@endscript
 ;各自で設定
-;@rclick enabled=true jump=true storage=title.ks target=*title
+;@history enabled=false output=false
+@rclick enabled=false
 @return
