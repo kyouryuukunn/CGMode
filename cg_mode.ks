@@ -98,39 +98,45 @@ kag.onMouseWheel = function (shift, delta, x, y)
 ;‚Ø[ƒW”Ô†•`‰æ
 @if exp="cg.maxpage > 0"
 	@eval exp="cg.pagecount = 0"
-	;@locate x="&cg.page_basex + cg.page_width * cg.pagecount" y="&cg.page_basey + cg.page_height * cg.pagecount"
-	;@nowait
-	;@eval exp="kag.tagHandlers.font(cg.page_font)"
-	;page
-	;@resetfont
-	;@endnowait
 *pagedraw
 		@locate x="&cg.page_basex + cg.page_width * cg.pagecount" y="&cg.page_basey + cg.page_height * cg.pagecount"
 		@nowait
 		@if exp="cg.pagecount != cg.page"
-			@link storage=cg_mode.ks target=*sub_draw exp="&'cg.page = ' + cg.pagecount"
-			@eval exp="kag.tagHandlers.font(cg.page_font)"
-			@emb exp="cg.pagecount + 1"
-			@resetfont
-			@endlink
+			@if exp="cg.page_cg.count > 0"
+				@button storage=cg_mode.ks target=*sub_draw graphic=&cg.page_cg[cg.pagecount] exp="&'cg.page = ' + cg.pagecount"
+			@else
+				@link storage=cg_mode.ks target=*sub_draw exp="&'cg.page = ' + cg.pagecount"
+				@eval exp="kag.tagHandlers.font(cg.page_font)"
+				@emb exp="cg.pagecount + 1"
+				@resetfont
+				@endlink
+			@endif
 		@else
-			@eval exp="kag.tagHandlers.font(cg.page_font)"
-			@font color=0x666666
-			@emb exp="cg.pagecount + 1"
-			@resetfont
+			@if exp="cg.page_cg.count > 0"
+				@pimage dx="&cg.page_basex + cg.page_width * cg.page" dy="&cg.page_basey + cg.page_height * cg.page" storage=&cg.nowpage_cg[cg.page] layer="&kag.numCharacterLayers-2" page=back
+			@else
+				@eval exp="kag.tagHandlers.font(cg.page_font)"
+				@font color=0x666666
+				@emb exp="cg.pagecount + 1"
+				@resetfont
+			@endif
 		@endif
 		@endnowait
 	@jump storage=cg_mode.ks target=*pagedraw cond="++cg.pagecount < (cg.maxpage + 1)"
 @endif
 
 @locate x=&cg.close_x y=&cg.close_y
-@link storage=cg_mode.ks target=*back
-@nowait
-@eval exp="kag.tagHandlers.font(cg.close_font)"
-close
-@resetfont
-@endnowait
-@endlink
+@if exp="cg.close_buttun != ''"
+	@button storage=cg_mode.ks target=*back graphic=&cg.close_buttun
+@else
+	@link storage=cg_mode.ks target=*back
+	@nowait
+	@eval exp="kag.tagHandlers.font(cg.close_font)"
+	close
+	@resetfont
+	@endnowait
+	@endlink
+@endif
 
 @stoptrans
 @trans method=crossfade time=300
