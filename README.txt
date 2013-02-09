@@ -1,4 +1,4 @@
-Ô‹°—³	http://akakyouryuu.blog.fc2.com/
+Ô‹°—³	http://akakyouryuu.com/
 
 ‚æ‚­‚ ‚éCGƒ‚[ƒh‚ğÀ‘•‚·‚é
 
